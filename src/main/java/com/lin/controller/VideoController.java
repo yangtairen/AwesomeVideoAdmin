@@ -8,6 +8,7 @@ import com.lin.utils.PagedResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,9 @@ public class VideoController {
 
     @Autowired
     private VideoService videoService;
+
+    @Value("${user.upload.file.path}")
+    private String uploadFilepath;
 
     /**
      * 跳转到视频列表页面
@@ -168,7 +172,7 @@ public class VideoController {
                 String fileName = file.getOriginalFilename();
                 if (StringUtils.isNoneBlank(fileName)) {
                     // 文件上传的最终保存路径
-                    String finalFacePath = String.format("F:/AwesomeVideoUpload/bgm/%s", fileName);
+                    String finalFacePath = String.format("%s/bgm/%s", uploadFilepath, fileName);
                     // 设置数据库保存的路径
                     uploadPathDB = String.format("/bgm/%s", fileName);
 
